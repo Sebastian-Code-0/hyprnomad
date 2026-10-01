@@ -1,11 +1,11 @@
-# hyprnomad
+<h1 align="center">hyprnomad</h1>
 
 ---
 
-![desktop](img/desktop.png)
+![terminal](img/terminal.png)
 
 <p align="center">
-  <img src="img/terminal.png" width="49%" alt="terminal">
+  <img src="img/desktop.png" width="49%" alt="desktop">
   <img src="img/hyprlock.png" width="49%" alt="hyprlock">
 </p>
 
@@ -162,24 +162,53 @@ screenshot, media keys, favorites menu.
 
 ### Inside the apps
 
-Launcher, clipboard, wallpaper picker and window picker share the same base keys: `Esc`
-closes, type to search, `↑↓` moves, `Enter` acts, `Tab`/`Shift+Tab` switches
-category/section. Extra keys: `Ctrl+F` favorite, `Ctrl+D` details (launcher); `Ctrl+O` open,
-`Ctrl+Delete` delete, `Alt+Delete` clear history (clipboard); `Ctrl+T` categories, `Ctrl+G`
-columns (wallpaper picker); `Ctrl+W` close, `Ctrl+M` bring here, `Ctrl+G` columns (window
-picker).
+Launcher, clipboard, wallpaper picker and window picker share the same base keys:
+
+| Key | Action |
+|---|---|
+| `Esc` | Close |
+| *(type)* | Search |
+| `↑` `↓` | Move |
+| `Enter` | Select / act |
+| `Tab` / `Shift+Tab` | Switch category or section |
+
+Extra keys per app:
+
+| Key | Action | App |
+|---|---|---|
+| `Ctrl+F` | Favorite | Launcher |
+| `Ctrl+D` | Details | Launcher |
+| `Ctrl+O` | Open | Clipboard |
+| `Ctrl+Delete` | Delete | Clipboard |
+| `Alt+Delete` | Clear history | Clipboard |
+| `Ctrl+T` | Categories | Wallpaper picker |
+| `Ctrl+G` | Columns | Wallpaper picker |
+| `Ctrl+W` | Close window | Window picker |
+| `Ctrl+M` | Bring here | Window picker |
+| `Ctrl+G` | Columns | Window picker |
 
 ### lf
 
-`.` hidden files · `Esc` clear · `f` filter · `w` jump (zoxide) · `Ctrl+F` find files (fzf) ·
-`bc` search text in files (ripgrep) · `x y p` cut/copy/paste · `bb` trash · `B` delete ·
-`br`/`bv` restore/empty trash · `bn`/`bf` rename · `aa` open · `Ctrl+A` select all · `cm`
-make executable · `cb` backup · `cn cx ca cd` copy filename/filename+ext/file path/dir path ·
-`na nd ns` new file/dir/dir from selection · `zc za ze` zip/encrypted zip/extract · `v4 vv vp
-vj vg v3` convert to mp4/mkv/png/jpg/gif/mp3 · `id im iv in iw is` go to
-Downloads/Pictures/Videos/Music/Wallpapers/Screenshots · `ii` or `gh` go home · `iu`/`du` USB
-mount/unmount · `gg` top of list · `zh zr zn zs zt` hidden/reverse/info/size/date · `sn ss st
-se sa sb sc` sort by name/size/mtime/ext/atime/ctime/btime · `rc` reload config.
+| Key | Action |
+|---|---|
+| `.` | Toggle hidden files |
+| `f` | Filter |
+| `w` | Jump (zoxide) |
+| `Ctrl+F` | Find files (fzf) |
+| `bc` | Search text in files (ripgrep) |
+| `x` / `y` / `p` | Cut / copy / paste |
+| `bb` / `B` | Trash / delete |
+| `br` / `bv` | Restore / empty trash |
+| `aa` | Open |
+| `Ctrl+A` | Select all |
+| `cm` | Make executable |
+| `cb` | Backup |
+| `na` / `nd` / `ns` | New file / folder / folder from selection |
+| `zc` / `za` / `ze` | Zip / encrypted zip / extract |
+| `id` `im` `iv` `in` `iw` `is` | Go to Downloads / Pictures / Videos / Music / Wallpapers / Screenshots |
+| `ii` / `gh` | Go home |
+| `iu` / `du` | Mount / unmount USB |
+| `rc` | Reload config |
 
 Full definitions in `config/lf/configs/{keymaps,commands}`.
 
