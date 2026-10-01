@@ -1,11 +1,11 @@
-# hyprnomad
+<h1 align="center">hyprnomad</h1>
 
 ---
 
-![escritorio](img/desktop.png)
+![terminal](img/terminal.png)
 
 <p align="center">
-  <img src="img/terminal.png" width="49%" alt="terminal">
+  <img src="img/desktop.png" width="49%" alt="escritorio">
   <img src="img/hyprlock.png" width="49%" alt="bloqueo de pantalla">
 </p>
 
@@ -160,25 +160,53 @@ capturas, multimedia, menú de favoritos.
 ### Dentro de las apps
 
 Lanzador, portapapeles, selector de wallpapers y selector de ventanas comparten las mismas
-teclas base: `Esc` cierra, escribe para buscar, `↑↓` mueve, `Enter` actúa,
-`Tab`/`Shift+Tab` cambia de categoría/sección. Extra: `Ctrl+F` favorito, `Ctrl+D` detalles
-(lanzador); `Ctrl+O` abrir, `Ctrl+Supr` borrar, `Alt+Supr` vaciar historial (portapapeles);
-`Ctrl+T` categorías, `Ctrl+G` columnas (wallpapers); `Ctrl+W` cerrar, `Ctrl+M` traer aquí,
-`Ctrl+G` columnas (ventanas).
+teclas base:
+
+| Tecla | Acción |
+|---|---|
+| `Esc` | Cerrar |
+| *(escribir)* | Buscar |
+| `↑` `↓` | Mover |
+| `Enter` | Seleccionar / actuar |
+| `Tab` / `Shift+Tab` | Cambiar de categoría o sección |
+
+Teclas extra por app:
+
+| Tecla | Acción | App |
+|---|---|---|
+| `Ctrl+F` | Favorito | Lanzador |
+| `Ctrl+D` | Detalles | Lanzador |
+| `Ctrl+O` | Abrir | Portapapeles |
+| `Ctrl+Supr` | Borrar | Portapapeles |
+| `Alt+Supr` | Vaciar historial | Portapapeles |
+| `Ctrl+T` | Categorías | Selector de wallpapers |
+| `Ctrl+G` | Columnas | Selector de wallpapers |
+| `Ctrl+W` | Cerrar ventana | Selector de ventanas |
+| `Ctrl+M` | Traer aquí | Selector de ventanas |
+| `Ctrl+G` | Columnas | Selector de ventanas |
 
 ### lf
 
-`.` ocultos · `Esc` limpiar · `f` filtrar · `w` saltar (zoxide) · `Ctrl+F` buscar archivos
-(fzf) · `bc` buscar texto en archivos (ripgrep) · `x y p` cortar/copiar/pegar · `bb` papelera
-· `B` borrar · `br`/`bv` restaurar/vaciar papelera · `bn`/`bf` renombrar · `aa` abrir ·
-`Ctrl+A` seleccionar todo · `cm` hacer ejecutable · `cb` crear respaldo · `cn cx ca cd`
-copiar nombre/nombre+ext/ruta archivo/ruta carpeta · `na nd ns` crear archivo/carpeta/carpeta
-con selección · `zc za ze` zip/zip cifrado/extraer · `v4 vv vp vj vg v3` convertir a
-mp4/mkv/png/jpg/gif/mp3 · `id im iv in iw is` ir a
-Descargas/Imágenes/Vídeos/Música/Wallpapers/Capturas · `ii` o `gh` ir al inicio · `iu`/`du`
-montar/desmontar USB · `gg` principio de la lista · `zh zr zn zs zt`
-ocultos/orden/info/tamaño/fecha · `sn ss st se sa sb sc` ordenar por
-nombre/tamaño/modificación/extensión/acceso/creación/cambio · `rc` recargar configuración.
+| Tecla | Acción |
+|---|---|
+| `.` | Alternar ocultos |
+| `f` | Filtrar |
+| `w` | Saltar (zoxide) |
+| `Ctrl+F` | Buscar archivos (fzf) |
+| `bc` | Buscar texto en archivos (ripgrep) |
+| `x` / `y` / `p` | Cortar / copiar / pegar |
+| `bb` / `B` | Papelera / borrar |
+| `br` / `bv` | Restaurar / vaciar papelera |
+| `aa` | Abrir |
+| `Ctrl+A` | Seleccionar todo |
+| `cm` | Hacer ejecutable |
+| `cb` | Crear respaldo |
+| `na` / `nd` / `ns` | Crear archivo / carpeta / carpeta con selección |
+| `zc` / `za` / `ze` | Zip / zip cifrado / extraer |
+| `id` `im` `iv` `in` `iw` `is` | Ir a Descargas / Imágenes / Vídeos / Música / Wallpapers / Capturas |
+| `ii` / `gh` | Ir al inicio |
+| `iu` / `du` | Montar / desmontar USB |
+| `rc` | Recargar configuración |
 
 Definiciones completas en `config/lf/configs/{keymaps,commands}`.
 
