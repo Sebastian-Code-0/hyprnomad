@@ -1,0 +1,698 @@
+# -------------------- COMMANDS -------------------- #
+
+
+# ---------- PAPELERA ----------
+# Usa la papelera estándar del sistema (XDG, ~/.local/share/Trash) vía trash-cli.
+# Requiere: sudo pacman -S trash-cli
+
+cmd trash %{{
+
+
+    nof=$(echo "$fx" | wc -l)
+
+    printf "   mover $nof archivo(s) a la papelera? [s/n] "
+    read -r ans
+    if [ "$ans" = "s" ]; then
+        failed=0
+        while IFS= read -r file; do
+            err=$(trash-put -- "$file" 2>&1) || { echo "   error: \"$(basename "$file")\" — $err"; failed=1; }
+        done <<< "$fx"
+        lf -remote "send $id :reload;unselect"
+        if [ $failed -eq 0 ]; then
+            echo "   movido a la papelera correctamente"
+            notify-send "lf gestor de archivos" "   $nof archivo(s) movido(s) a la papelera" -i "user-trash-symbolic"
+        fi
+    else
+        echo "   cancelado"
+    fi
+}}
+
+cmd "restaurar de papelera" %{{
+    INFO_DIR="$HOME/.local/share/Trash/info"
+    FILES_DIR="$HOME/.local/share/Trash/files"
+
+    restore_one() {
+        nombre="$1"
+        info="$INFO_DIR/$nombre.trashinfo"
+        if [ ! -f "$info" ]; then
+            echo "   no se encontró información de \"$nombre\" en la papelera"
+            return 1
+        fi
+
+        origen_codificado=$(grep "^Path=" "$info" | cut -d= -f2-)
+        origen=$(printf '%b' "${origen_codificado//%/\\x}")
+
+        if [ -e "$origen" ]; then
+            echo "   ya existe un archivo en \"$origen\", se canceló para no sobrescribir nada"
+            return 1
+        fi
+
+        mkdir -p "$(dirname "$origen")"
+        if mv -- "$FILES_DIR/$nombre" "$origen"; then
+            rm -f "$info"
+            echo "   restaurado: $nombre"
+            return 0
+        else
+            echo "   error al restaurar \"$nombre\""
+            return 1
+        fi
+    }
+
+    # parado dentro de la papelera: restaura directo el/los archivo(s) bajo el cursor, sin pedir número
+    # (se queda en modo shell-pipe, mensajes lindos abajo en lf, sin pantalla completa)
+    if [ "$(pwd)" = "$FILES_DIR" ]; then
+        nof=$(echo "$fx" | wc -l)
+        printf "   restaurar %s archivo(s)? [s/n] " "$nof"
+        read -r ans
+        if [ "$ans" != "s" ]; then
+            echo "   cancelado"
+            exit 0
+        fi
+
+        ok=0
+        while IFS= read -r file; do
+            restore_one "$(basename "$file")" && ok=$((ok + 1))
+        done <<< "$fx"
+
+        lf -remote "send $id :reload;unselect"
+        if [ "$ok" -gt 0 ]; then
+            notify-send "lf gestor de archivos" "   $ok archivo(s) restaurado(s)" -i "document-revert-symbolic"
+        fi
+        exit 0
+    fi
+
+    # fuera de la papelera: necesita pantalla completa para que fzf funcione,
+    # así que se lo pasamos al comando hermano que corre en modo terminal completa
+    if [ -z "$(ls -A "$INFO_DIR" 2>/dev/null)" ]; then
+        echo "   la papelera está vacía, no hay nada que restaurar"
+        exit 0
+    fi
+    lf -remote "send $id restaurar-papelera-fzf"
+}}
+
+cmd restaurar-papelera-fzf ${{
+    . ~/.config/lf/scripts/utils.sh
+    INFO_DIR="$HOME/.local/share/Trash/info"
+    FILES_DIR="$HOME/.local/share/Trash/files"
+
+    msg() { aviso "$1"; }
+
+    clear
+
+    seleccion=$(
+        for info in "$INFO_DIR"/*.trashinfo; do
+            nombre=$(basename "$info" .trashinfo)
+            fecha=$(grep "^DeletionDate=" "$info" | cut -d= -f2 | tr 'T' ' ')
+            printf '%s\t(borrado: %s)\n' "$nombre" "$fecha"
+        done | fzf --border --header='  restaurar de la papelera' --delimiter='\t' --with-nth=1,2 \
+            --preview="$HOME/.config/lf/previewer/fzf_trash_preview.sh $HOME/.local/share/Trash/files/{1}" \
+            --preview-window='right:50%'
+    )
+
+    if [ -z "$seleccion" ]; then
+        msg "   cancelado"
+        exit 0
+    fi
+    nombre=$(printf '%s' "$seleccion" | cut -f1)
+
+    printf "   restaurar \"%s\"? [s/n] " "$nombre"
+    read -r ans
+    if [ "$ans" != "s" ]; then
+        msg "   cancelado"
+        exit 0
+    fi
+
+    info="$INFO_DIR/$nombre.trashinfo"
+    origen_codificado=$(grep "^Path=" "$info" | cut -d= -f2-)
+    origen=$(printf '%b' "${origen_codificado//%/\\x}")
+
+    if [ -e "$origen" ]; then
+        msg "   ya existe un archivo en \"$origen\", se canceló para no sobrescribir nada"
+        exit 1
+    fi
+
+    mkdir -p "$(dirname "$origen")"
+    if mv -- "$FILES_DIR/$nombre" "$origen"; then
+        rm -f "$info"
+        lf -remote "send $id :reload;unselect"
+        msg "   restaurado: $nombre"
+        notify-send "lf gestor de archivos" "Se restauró \"$nombre\"" -i "document-revert-symbolic"
+    else
+        msg "   error al restaurar \"$nombre\""
+    fi
+}}
+
+cmd "vaciar papelera" %{{
+    printf "   vaciar la papelera completa? esto NO se puede deshacer [s/n] "
+    read -r ans
+    if [ "$ans" = "s" ]; then
+        trash-empty -f 0
+        echo "   papelera vaciada"
+    else
+        echo "   cancelado"
+    fi
+}}
+
+
+
+# ---------- ELIMINAR PERMANENTEMENTE ----------
+
+cmd delete %{{
+
+
+    nof=$(echo "$fx" | wc -l)
+
+    printf "   eliminar $nof archivo(s) permanentemente? [s/n] "
+    read -r ans
+    if [ "$ans" = "s" ]; then
+        failed=0
+        while IFS= read -r file; do
+            err=$(rm -rv "$file" 2>&1) || { echo "   error: \"$(basename "$file")\" — $err"; failed=1; }
+        done <<< "$fx"
+        lf -remote "send $id :reload;unselect"
+        if [ $failed -eq 0 ]; then
+            echo "   eliminado correctamente"
+            notify-send "lf gestor de archivos" "   $nof archivo(s) eliminado(s) correctamente" -i "edit-delete-symbolic"
+        fi
+    else
+        echo "   cancelado"
+    fi
+}}
+
+
+
+# ---------- SELECCIÓN ----------
+
+cmd "seleccionar todo" %{{
+    lf -remote "send $id glob-select *"
+}}
+
+
+
+# ---------- COPIAR CON PROGRESO ----------
+
+#require rsync
+
+cmd paste &{{
+    . ~/.config/lf/scripts/utils.sh
+    mapfile -t _lines < ~/.local/share/lf/files
+    mode="${_lines[0]}"
+    files=("${_lines[@]:1}")
+
+
+    if [[ ${#files[@]} -gt 0 ]]; then
+        lf -remote "send $id echo ' 󱥸  calculando archivos...'"
+        nof=$(rsync -ar --dry-run --stats -- "${files[@]}" . | grep -F 'Number of files' |    cut -d' ' -f4 |    tr -d ,)
+
+        case "$mode" in
+            copy)
+                for file in "${files[@]}"; do
+                    if ! [[ -O "$file" ]]; then
+                        printf "   al copiar estos archivos el propietario cambiará al usuario actual. ¿continuar? (s/n) "
+                        read -r ans
+                        if [ "$ans" = "s" ]; then
+                            rsync -arhz --info=progress2 -- "${files[@]}" . |
+                            stdbuf -i0 -o0 -e0 tr '\r' '\n' |
+                            while IFS= read -r line; do
+                                aviso " 󰆏 $line"
+                            done
+
+                            lf -remote "send $id :clear;reload"
+                            aviso "   $nof archivo(s) copiado(s) correctamente"
+                            notify-send "lf gestor de archivos" "   $nof archivo(s) copiado(s) correctamente" -i "edit-copy-symbolic"
+                            rm -f ~/.local/share/lf/files
+                            exit 0
+                        else
+                            lf -remote "send $id echo '   permiso denegado: uno o más archivos no te pertenecen y no pueden copiarse'"
+                            exit 1
+                        fi
+                    fi
+                done
+
+                rsync -arh --info=progress2 -- "${files[@]}" . |
+                stdbuf -i0 -o0 -e0 tr '\r' '\n' |
+                while IFS= read -r line; do
+                    aviso " 󰆏 $line"
+                done
+
+                lf -remote "send $id :clear;reload"
+                aviso "   $nof archivo(s) copiado(s) correctamente"
+                notify-send "lf gestor de archivos" "   $nof archivo(s) copiado(s) correctamente" -i "edit-copy-symbolic"
+                rm -f ~/.local/share/lf/files
+                exit 0
+                ;;
+        move)
+            for file in "${files[@]}"; do
+                if ! [[ -O "$file" ]]; then
+                    lf -remote "send $id echo '   permiso denegado: uno o más archivos no te pertenecen y no pueden moverse'"
+                    exit 1
+                fi
+            done
+
+            rsync -arhz --info=progress2 --remove-source-files -- "${files[@]}" . |
+            stdbuf -i0 -o0 -e0 tr '\r' '\n' |
+            while IFS= read -r line; do
+               aviso " 󱀱 $line"
+            done
+
+            if [ -n "$(find "${files[@]}" -type f 2>/dev/null)" ]; then
+                lf -remote "send $id echo '   no todos los archivos fueron movidos'";
+            else
+                find "${files[@]}" -type d -empty -delete 2>/dev/null
+            fi
+
+            lf -remote "send $id :clear;reload"
+            aviso "   $nof archivo(s) movido(s) correctamente"
+            notify-send "lf gestor de archivos" "   $nof archivo(s) movido(s) correctamente" -i "send-to-symbolic"
+            rm -f ~/.local/share/lf/files
+            exit 0
+            ;;
+        esac
+    else
+        exit 1
+    fi
+}}
+
+
+
+# ---------- COPIAR RUTA Y NOMBRE ----------
+
+cmd "copiar nombre del archivo" &{{
+    . ~/.config/lf/scripts/utils.sh
+    file=${f##*/}
+    name=${file%.*}
+    printf '%s' "$name" | wl-copy
+    aviso " 󱉣  copiado \"$name\" al portapapeles"
+}}
+
+cmd "copiar nombre con extensión" &{{
+    . ~/.config/lf/scripts/utils.sh
+    file=${f##*/}
+    printf '%s' "$file" | wl-copy
+    aviso " 󱉣  copiado \"$file\" al portapapeles"
+}}
+
+cmd "mostrar nombre con extensión" &{{
+    . ~/.config/lf/scripts/utils.sh
+    file=${f##*/}
+    aviso "   nombre completo: \"$file\""
+}}
+
+cmd "copiar ruta del archivo" &{{
+    . ~/.config/lf/scripts/utils.sh
+    printf '%s' "$fx" | wl-copy
+    aviso " 󱉣  copiado \"$fx\" al portapapeles"
+}}
+
+cmd "copiar ruta de la carpeta actual" &{{
+    . ~/.config/lf/scripts/utils.sh
+    printf '%s' "$(pwd)" | wl-copy
+    aviso " 󱉣  copiado \"$(pwd)\" al portapapeles"
+}}
+
+
+
+# ---------- BÚSQUEDA RÁPIDA ----------
+
+cmd "buscar con fzf" ${{
+    . ~/.config/lf/scripts/utils.sh
+    res="$(fd --hidden --ignore-case . / 2>/dev/null | fzf --border --header='  saltar a ubicación')"
+    [ -n "$res" ] || exit 0
+    if [ -d "$res" ]; then ir_a "$res"; else seleccionar "$res"; fi
+}}
+
+
+
+# ---------- RIPGREP ----------
+
+cmd ripgrep ${{
+    . ~/.config/lf/scripts/utils.sh
+    cmd="rg --column --line-number --no-heading --color=always --smart-case"
+    fzf --ansi --disabled --layout=reverse --header="Buscar en archivos" --delimiter=: \
+        --bind="start:reload([ -n {q} ] && $cmd -- {q} || true)" \
+        --bind="change:reload([ -n {q} ] && $cmd -- {q} || true)" \
+        --bind='enter:become(~/.config/lf/scripts/seleccionar.sh "$id" {1})' \
+        --preview='bat --color=always --style=numbers --pager=never --highlight-line {2} -- {1}' \
+        --preview-window='+{2}/2' || true
+}}
+
+
+
+# ---------- CREAR ARCHIVO Y DIRECTORIO ----------
+
+cmd "crear carpeta" %{{
+    . ~/.config/lf/scripts/utils.sh
+    printf " 󰉗  crear nuevo directorio: "
+    read -r ans
+    [ -n "$ans" ] || exit 0
+    mkdir -- "$ans" || exit 1
+    aviso " 󰉗  directorio \"$ans\" creado"
+}}
+
+cmd "crear archivo" %{{
+    . ~/.config/lf/scripts/utils.sh
+    printf " 󰝒  crear nuevo archivo: "
+    read -r ans
+    [ -n "$ans" ] || exit 0
+    touch -- "$ans" || exit 1
+    aviso " 󰝒  archivo \"$ans\" creado"
+}}
+
+cmd "crear carpeta con la selección" ${{
+  . ~/.config/lf/scripts/utils.sh
+  printf " 󰉗  crear nuevo directorio: "
+  read -r ans
+  [ -n "$ans" ] || exit 0
+  mkdir -- "$ans" || exit 1
+  while IFS= read -r f; do mv -- "$f" "$ans"; done <<< "$fx"
+  aviso " 󰝒  directorio \"$ans\" creado"
+}}
+
+
+
+# ---------- CALCULAR TAMAÑO ----------
+
+cmd "calcular tamaño de la carpeta" &{{
+    lf -remote "send $id set info size"
+    lf -remote "send $id set dircounts false"
+    lf -remote "send calcdirsize"
+}}
+
+
+
+# ---------- ARCHIVOS COMPRIMIDOS ----------
+
+cmd "crear zip" %{{
+    . ~/.config/lf/scripts/utils.sh
+    printf " 󱝣  nombre del archivo ZIP: "
+    read -r ans
+    [ -n "$ans" ] || { echo "   cancelado"; exit 0; }
+    origd="$(pwd)"
+    tempd="$(mktemp -d)" || exit 1
+    pushd "$tempd" > /dev/null || exit 1
+    while IFS= read -r file; do rsync -arhz --info=progress2 -- "$file" .; done <<< "$fx"
+    7z a -r -tzip -- "$ans" ./*
+    rsync -arhz --info=progress2 -- "$ans".zip "$origd/"
+    popd > /dev/null
+    rm -rf "$tempd"
+    lf -remote "send $id :reload;unselect"
+    aviso " 󱝣  ZIP \"$ans.zip\" creado"
+}}
+
+cmd "crear zip cifrado" ${{
+    . ~/.config/lf/scripts/utils.sh
+    printf " 󱝣  nombre del ZIP cifrado: "
+    read -r ans
+    [ -n "$ans" ] || exit 0
+    origd="$(pwd)"
+    tempd="$(mktemp -d)" || exit 1
+    pushd "$tempd" > /dev/null || exit 1
+    while IFS= read -r file; do rsync -arhz --info=progress2 -- "$file" .; done <<< "$fx"
+    7z a -mem=AES256 -mx4 -tzip -p -- "$ans" ./*
+    rsync -arhz --info=progress2 -- "$ans".zip "$origd/"
+    popd > /dev/null
+    rm -rf "$tempd"
+    lf -remote "send $id :reload;unselect"
+    aviso " 󱝣  ZIP cifrado \"$ans.zip\" creado"
+}}
+
+cmd "extraer archivo comprimido" &{{
+    while IFS= read -r file; do
+        case $file in
+            *.zip) 7z x -aou -o"${file%.zip}" -- "$file" ;;
+            *.7z) 7z x -aou -o"${file%.7z}" -- "$file" ;;
+            *.rar) 7z x -aou -o"${file%.rar}" -- "$file" ;;
+            *.tar.zst) tar --zstd -xf "$file" --one-top-level ;;
+            *.tar.gz) tar -xzf "$file" --one-top-level ;;
+            *.tar.xz) tar -xf "$file" --one-top-level ;;
+            *.tar.bz2) tar -xjf "$file" --one-top-level ;;
+            *.gz) gunzip -k -- "$file" ;;
+            *.tar) tar -xf "$file" --one-top-level ;;
+            *) lf -remote "send $id echo '   formato no soportado'" ;;
+        esac
+    done <<< "$fx"
+    lf -remote "send $id :reload;unselect"
+    lf -remote "send $id echo '   archivo(s) extraído(s) correctamente'"
+}}
+
+
+
+# ---------- CONVERTIR ARCHIVOS ----------
+
+cmd "convertir a mp4" &{{
+    . ~/.config/lf/scripts/utils.sh
+    while IFS= read -r file; do
+        aviso " 󱥸  convirtiendo $(basename -- "$file") a mp4..."
+        ffmpeg -nostdin -i "$file" -c:v libx264 -pix_fmt yuv420p -b:v 12M -b:a 192k -c:a aac "${file%.*}.mp4"
+    done <<< "$fx"
+    lf -remote "send $id :reload;unselect"
+    lf -remote "send $id echo '   conversión a mp4 completada'"
+}}
+
+cmd "convertir a mkv" &{{
+    . ~/.config/lf/scripts/utils.sh
+    while IFS= read -r file; do
+        aviso " 󱥸  convirtiendo $(basename -- "$file") a mkv..."
+        ffmpeg -nostdin -i "$file" -codec copy "${file%.*}.mkv"
+    done <<< "$fx"
+    lf -remote "send $id :reload;unselect"
+    lf -remote "send $id echo '   conversión a mkv completada'"
+}}
+
+cmd "convertir a png" &{{
+    . ~/.config/lf/scripts/utils.sh
+    while IFS= read -r file; do
+        aviso " 󱥸  convirtiendo $(basename -- "$file") a png..."
+        ffmpeg -nostdin -i "$file" "${file%.*}.png"
+    done <<< "$fx"
+    lf -remote "send $id :reload;unselect"
+    lf -remote "send $id echo '   conversión a png completada'"
+}}
+
+cmd "convertir a jpg" &{{
+    . ~/.config/lf/scripts/utils.sh
+    while IFS= read -r file; do
+        aviso " 󱥸  convirtiendo $(basename -- "$file") a jpg..."
+        ffmpeg -nostdin -i "$file" "${file%.*}.jpg"
+    done <<< "$fx"
+    lf -remote "send $id :reload;unselect"
+    lf -remote "send $id echo '   conversión a jpg completada'"
+}}
+
+cmd "convertir a gif" &{{
+    . ~/.config/lf/scripts/utils.sh
+    while IFS= read -r file; do
+        aviso " 󱥸  convirtiendo $(basename -- "$file") a gif..."
+        ffmpeg -nostdin -i "$file" -filter_complex "fps=15,scale=480:-1:flags=lanczos,split [o1] [o2];[o1] palettegen [p]; [o2] fifo [o3];[o3] [p] paletteuse" "${file%.*}.gif"
+    done <<< "$fx"
+    lf -remote "send $id :reload;unselect"
+    lf -remote "send $id echo '   conversión a gif completada'"
+}}
+
+cmd "convertir a mp3" &{{
+    . ~/.config/lf/scripts/utils.sh
+    while IFS= read -r file; do
+        aviso " 󱥸  convirtiendo $(basename -- "$file") a mp3..."
+        ffmpeg -nostdin -i "$file" -vn -ar 44100 -ac 2 -b:a 320k "${file%.*}.mp3"
+    done <<< "$fx"
+    lf -remote "send $id :reload;unselect"
+    lf -remote "send $id echo '   conversión a mp3 completada'"
+}}
+
+
+
+# ---------- ABRIR ----------
+
+cmd open &{{
+    case $(file --mime-type -Lb "$f") in
+        image/*) swayimg "$f" ;;
+        text/*|application/json) kitty --override window_padding_width=0 nvim "$f" ;;
+        *) xdg-open "$f" ;;
+    esac
+}}
+
+
+
+# ---------- REPRODUCTOR ----------
+
+cmd "abrir con el reproductor predeterminado" ${{
+    xdg-open "$f"
+}}
+
+
+
+# ---------- USB ----------
+
+cmd "ir a usb" ${{
+    . ~/.config/lf/scripts/utils.sh
+    ir_a "/run/media/$USER"
+}}
+
+cmd "desmontar usb" &{{
+    if [[ "$PWD" != /run/media/* ]]; then
+        lf -remote "send $id echo '   párate dentro de la USB primero (iu → entrar a la carpeta)'"
+        exit 1
+    fi
+    dev=$(findmnt -n -o SOURCE --target "$PWD" 2>/dev/null)
+    if [ -z "$dev" ] || [ "$dev" = "run" ]; then
+        lf -remote "send $id echo '   no se detectó ningún dispositivo en esta ruta'"
+        exit 1
+    fi
+    lf -remote "send $id cd ~"
+    cd ~
+    sleep 1
+    udisksctl unmount -b "$dev" &&
+    udisksctl power-off -b "$dev" &&
+    notify-send "lf gestor de archivos" "USB desmontada de forma segura" &&
+    lf -remote "send $id echo '   USB desmontada de forma segura'" ||
+    lf -remote "send $id echo '   error al desmontar: cierra todos los archivos de la USB e intenta de nuevo'"
+}}
+
+
+
+# ---------- CHMOD ----------
+
+cmd chmodx &{{
+    while IFS= read -r file; do chmod u+x -- "$file"; done <<< "$fx"
+    lf -remote "send $id reload"
+}}
+
+
+
+# ---------- CREAR BACKUP ----------
+
+cmd "crear respaldo" &{{
+    . ~/.config/lf/scripts/utils.sh
+
+
+    nof=$(printf '%s\n' "$fx" | wc -l)
+
+    while IFS= read -r file; do
+        aviso " 󱥸  creando backup de $(basename -- "$file")..."
+        cp -r -- "$file" "$file.bak"
+    done <<< "$fx"
+    lf -remote "send $id :reload;unselect"
+    aviso "   $nof backup(s) creado(s) correctamente"
+    notify-send "lf gestor de archivos" "   $nof backup(s) creado(s) correctamente" -i "document-save-symbolic"
+}}
+
+
+
+# ---------- RECARGAR CONFIGURACIÓN ----------
+
+cmd "recargar configuración" ${{
+    lf -remote "send $id source ~/.config/lf/lfrc"
+}}
+
+
+
+# ---------- ZOXIDE ----------
+
+cmd z %{{
+    . ~/.config/lf/scripts/utils.sh
+    result="$(zoxide query --exclude "$PWD" "$@")"
+    [ -n "$result" ] && ir_a "$result"
+}}
+
+cmd zi ${{
+    . ~/.config/lf/scripts/utils.sh
+    result="$(zoxide query -i)"
+    [ -n "$result" ] && ir_a "$result"
+}}
+
+cmd on-cd &{{
+    zoxide add "$PWD"
+}}
+
+# ir a una carpeta de usuario segun XDG (goxdg DOWNLOAD | goxdg PICTURES Screenshots)
+cmd goxdg &{{
+    . ~/.config/lf/scripts/utils.sh
+    dir=$(xdg-user-dir "$1") || exit
+    ir_a "$dir${2:+/$2}"
+}}
+
+# orden por fecha (mas reciente primero) en Descargas y Screenshots
+cmd on-init &{{
+    . ~/.config/lf/scripts/utils.sh
+    for d in "$(xdg-user-dir DOWNLOAD)" "$(xdg-user-dir PICTURES)/Screenshots"; do
+        e=$(lf_escapar "$d")
+        lf -remote "send $id setlocal \"$e\" sortby time"
+        lf -remote "send $id setlocal \"$e\" reverse"
+    done
+}}
+
+
+
+# ---------- LIMPIAR CACHÉ AL SALIR ----------
+
+cmd on-quit %{{
+    rm -rf ~/.cache/lf-previewer
+}}
+
+# ---------- NOMBRES EN ESPAÑOL PARA LOS ATAJOS ----------
+# lf muestra el nombre del comando en su ayuda de teclas (ej. al pulsar r o i)
+
+cmd "ir a configuración" cd ~/.config
+cmd "ir a Descargas" goxdg DOWNLOAD
+cmd "ir al inicio" cd ~
+cmd "ir a Imágenes" goxdg PICTURES
+cmd "ir a Música" goxdg MUSIC
+cmd "ir a Capturas" goxdg PICTURES Screenshots
+cmd "ir a la papelera" cd ~/.local/share/Trash/files
+cmd "ir a Vídeos" goxdg VIDEOS
+cmd "ir a Wallpapers" goxdg PICTURES Wallpapers
+cmd "ir al principio de la lista" top
+cmd "mover a papelera" trash
+cmd "buscar texto en archivos" ripgrep
+cmd "hacer ejecutable" chmodx
+cmd "abrir" open
+cmd "alternar archivos ocultos" :set hidden!
+cmd "invertir el orden" :set reverse!
+cmd "ocultar información extra" :set info
+cmd "mostrar tamaño" :set info size
+cmd "mostrar fecha de modificación" :set info time
+
+cmd "renombrar borrando el nombre" :{{
+    rename
+    cmd-delete-home
+}}
+
+cmd "renombrar editando el final" :{{
+    rename
+    cmd-end
+}}
+
+cmd "ordenar por último acceso" :{{
+    set sortby atime
+    set info atime
+}}
+
+cmd "ordenar por fecha de creación" :{{
+    set sortby btime
+    set info btime
+}}
+
+cmd "ordenar por fecha de cambio" :{{
+    set sortby ctime
+    set info ctime
+}}
+
+cmd "ordenar por extensión" :{{
+    set sortby ext
+    set info
+}}
+
+cmd "ordenar por nombre" :{{
+    set sortby natural
+    set info
+}}
+
+cmd "ordenar por tamaño" :{{
+    set sortby size
+    set info size
+}}
+
+cmd "ordenar por fecha de modificación" :{{
+    set sortby time
+    set info time
+}}

@@ -1,0 +1,34 @@
+// ~/.config/waybar/config.jsonc
+{
+    "layer": "top",
+    "position": "top",
+    "height": 26,
+    "spacing": 1,
+    
+    // Módulos por sección
+    "modules-left": [
+        "custom/arch",
+        "cpu",
+        "memory",
+        "temperature"
+    ],
+    
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    
+    "modules-right": [
+        "network",
+        "power-profiles-daemon",
+        "pulseaudio",
+        "pulseaudio#mic",
+        "backlight",
+        "battery",
+        "clock"
+    ],
+    
+    // Inclucion de la configuración de cada módulo
+    "include": [
+        "~/.config/waybar/modules.json"
+    ]
+}

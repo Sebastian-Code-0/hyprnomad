@@ -1,0 +1,177 @@
+@import "../../.cache/wal/colors-waybar.css";
+@import "contrast.css";
+
+* {
+    font-family: "SpaceMono Nerd Font", sans-serif;
+    font-size: 13px;
+    /* @shadow_safe es el color opuesto a @text_safe (ver contrast.css) */
+    text-shadow: 0 1px 2px alpha(@shadow_safe, 0.65);
+}
+
+/* El tema del sistema dibuja un rectangulo punteado de foco sobre
+   botones/entries (esto lo quita) */
+*:focus, *:focus-visible {
+    outline-style: none;
+    outline-width: 0;
+    box-shadow: none;
+}
+
+button:focus, button:focus-visible {
+    outline-style: none;
+    box-shadow: none;
+}
+
+window {
+    background-color: alpha(@background, 0.95);
+    color: @text_safe;
+}
+
+window.panel-window {
+    background-color: alpha(@background, 0.95);
+    border-radius: 20px;
+    border: 2px solid alpha(@color1, 0.3);
+}
+
+/* Reset base: el tema del sistema pinta botones claros por defecto con un
+   degrade propio (background-image) que gana por encima del
+   background-color si no lo anulamos, dejando texto claro sobre fondo
+   claro. Esto aplica a TODOS los botones, incluidos los de dialogos.
+   El color de fondo se mezcla con @color1 (pywal) en vez de un gris
+   generico, para que se sienta parte del mismo tema. */
+button {
+    background-image: none;
+    box-shadow: none;
+    text-shadow: none;
+    border: 1px solid alpha(@color1, 0.35);
+    border-radius: 8px;
+    padding: 8px 14px;
+    background-color: alpha(@color1, 0.14);
+    color: @text_safe;
+}
+
+button:hover {
+    background-color: alpha(@color1, 0.3);
+}
+
+button label {
+    color: @text_safe;
+}
+
+.nav {
+    padding: 14px 14px 0px 14px;
+}
+
+.nav-btn {
+    background-color: alpha(@color1, 0.08);
+    color: @text_safe;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.nav-btn:hover {
+    background-color: alpha(@color1, 0.3);
+}
+
+/* Pestaña activa: resaltado sutil con el color de acento de pywal, para
+   saber de un vistazo en cual seccion estamos parados. */
+.nav-btn-active {
+    background-color: alpha(@color1, 0.5);
+    border: 1px solid @color1;
+    color: @text_safe;
+    font-weight: bold;
+}
+
+.nav-btn-active:hover {
+    background-color: alpha(@color1, 0.6);
+}
+
+scrolledwindow, list {
+    background-color: transparent;
+}
+
+list row {
+    padding: 10px 12px;
+    color: @text_safe;
+}
+
+list row:hover {
+    background-color: alpha(@color1, 0.12);
+}
+
+list row:selected {
+    background-color: alpha(@color1, 0.5);
+    border-radius: 8px;
+}
+
+.detail {
+    padding: 20px;
+    color: @text_safe;
+}
+
+.detail-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.field-label {
+    font-weight: bold;
+    margin-right: 4px;
+    color: @color1;
+}
+
+.primary-btn {
+    background-color: alpha(@color1, 0.55);
+    color: @text_safe;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 1px solid @color1;
+}
+
+.primary-btn:hover {
+    background-color: @color1;
+}
+
+.status-label {
+    color: alpha(@text_safe, 0.55);
+    font-size: 11px;
+}
+
+.helper-text {
+    color: alpha(@text_safe, 0.65);
+    font-size: 12px;
+}
+
+.lock-icon {
+    font-family: "SpaceMono Nerd Font", "Font Awesome 6 Free", sans-serif;
+    color: alpha(@text_safe, 0.6);
+}
+
+entry {
+    background-color: alpha(@color1, 0.1);
+    color: @text_safe;
+    border-radius: 8px;
+    padding: 6px 10px;
+    border: 1px solid alpha(@color1, 0.35);
+}
+
+entry placeholder {
+    color: alpha(@text_safe, 0.4);
+}
+
+label {
+    color: @text_safe;
+}
+
+switch {
+    border-radius: 20px;
+    background-color: alpha(@color1, 0.2);
+}
+
+switch:checked {
+    background-color: @color1;
+}
+
+grid {
+    color: @text_safe;
+}

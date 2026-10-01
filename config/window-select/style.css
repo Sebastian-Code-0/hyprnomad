@@ -1,0 +1,36 @@
+/* base compartida con el launcher */
+@import "../launcher/style.css";
+
+/* cabecera y titulos */
+.header-note { font-size: 12px; opacity: 0.5; }
+.section-title { font-size: 10px; letter-spacing: 1px; opacity: 0.5; margin-left: 4px; }
+.plain-row, .plain-row:hover, .plain-row:selected { background-color: transparent; }
+
+/* cuadricula de ventanas */
+flowboxchild, flowboxchild:selected, flowboxchild:hover {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border-radius: 12px;
+}
+.wthumb {
+    background-color: alpha(@text_safe, 0.08);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 2px solid transparent;
+    border-radius: 12px;
+}
+flowboxchild:hover .wthumb { border-color: alpha(@text_safe, 0.35); }
+flowboxchild:selected .wthumb { border-color: @color4; }
+.card-badge {
+    background-color: alpha(@background, 0.78);
+    border-radius: 10px;
+    padding: 1px 8px;
+    margin: 8px;
+    font-size: 10px;
+}
+
+/* panel derecho */
+.preview { border: 1px solid alpha(@text_safe, 0.14); }
+.meta-glyph { opacity: 0.7; }

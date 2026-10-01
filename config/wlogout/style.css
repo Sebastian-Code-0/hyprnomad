@@ -1,0 +1,40 @@
+/* Menu de apagado: botones de cristal que toman el acento de pywal */
+@import "../../.cache/wal/colors-waybar.css";
+
+* {
+    font-family: "SpaceMono Nerd Font", sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+    text-shadow: none;          /* sin la sombra del tema GTK (dejaba el texto borroso) */
+    -gtk-icon-shadow: none;
+}
+
+window {
+    background-color: rgba(20, 14, 10, 0.5);
+}
+
+button {
+    color: @foreground;
+    background-color: rgba(0, 0, 0, 0.2);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30%;
+    border: 2px solid transparent;
+    border-radius: 24px;
+    box-shadow: none;
+    outline-style: none;
+    transition: background-color 0.2s ease, background-size 0.2s ease, border-color 0.2s ease;
+}
+
+button:hover,
+button:focus {
+    background-color: @color1;
+    background-size: 40%;
+    border-color: alpha(@foreground, 0.35);
+}
+
+/* iconos de cada accion (generados por make_icons.sh) */
+#bloquear  { background-image: url("icons/lock.png"); }
+#suspender { background-image: url("icons/sleep.png"); }
+#reiniciar { background-image: url("icons/restart.png"); }
+#apagar    { background-image: url("icons/power.png"); }

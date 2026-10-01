@@ -1,0 +1,26 @@
+# --------------------- OPTIONS -------------------- #
+
+set ratios 1:2:3
+set icons true
+set shell bash              # los comandos usan sintaxis de bash
+set scrolloff 4             # margen al desplazarse por la lista
+set wrapscroll true         # el cursor da la vuelta al llegar al final
+set truncatechar '…'
+set promptfmt "\033[1;34m󰉋 %d\033[0m\033[1m%f\033[0m"   # sin usuario@equipo
+
+set previewer ~/.config/lf/previewer/previewer.sh
+set cleaner ~/.config/lf/previewer/clear_img.sh
+
+set sortby 'natural'
+set ignorecase true
+
+setlocal ~/.local/share/Trash/files sortby ctime
+setlocal ~/.local/share/Trash/files reverse
+
+set timefmt '  󰃰 Mon Jan.02.2006 15:04'
+set errorfmt " \033[7;31;47m   "
+set rulerfile ~/.config/lf/ruler
+set dupfilefmt '%f.~%n~'
+
+set incfilter true
+set incsearch true
