@@ -1,0 +1,144 @@
+@define-color bg alpha(@background, 0.75);
+@define-color surface alpha(@foreground, 0.08);
+@define-color border alpha(@foreground, 0.15);
+@define-color accent @color6;
+@define-color text @foreground;
+
+/* GLOBAL */
+* {
+  all: unset;
+  font-family: "DejaVu Sans";
+  color: @text;
+
+  transition: 
+    background 200ms ease,
+    color 200ms ease,
+    border 200ms ease,
+    transform 150ms ease;
+}
+
+/* PANEL PRINCIPAL */
+.control-center {
+  background: @bg;
+  border-radius: 16px;
+  border: 1px solid @border;
+  margin: 20px;
+  padding: 16px;
+}
+
+/* TARJETAS */
+.control-center .notification-row .notification-background {
+  background: @surface;
+  border-radius: 12px;
+  border: 1px solid @border;
+  margin: 8px 0;
+  padding: 6px;
+}
+
+/* CONTENIDO */
+.notification-content {
+  padding: 10px;
+}
+
+/* HOVER NOTIFICACIONES */
+.notification-background:hover {
+  background: alpha(@accent, 0.15);
+}
+
+/* BOTÓN CERRAR */
+.close-button {
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.close-button:hover {
+  background: @accent;
+}
+
+button:hover {
+}
+
+/* HEADER */
+.widget-title {
+  font-weight: bold;
+  color: @accent;
+  margin-bottom: 10px;
+}
+
+.widget-title button {
+  background: @surface;
+  border-radius: 20px;
+  padding: 4px 12px;
+}
+
+.widget-title button:hover {
+  background: @accent;
+  color: @background;
+}
+
+/* DND */
+.widget-dnd {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.widget-dnd switch {
+  background: alpha(@foreground, 0.2);
+  border-radius: 20px;
+  padding: 3px;
+}
+
+.widget-dnd switch:checked {
+  background: @accent;
+}
+
+.widget-dnd switch slider {
+  background: @foreground;
+  border-radius: 20px;
+  min-width: 16px;
+  min-height: 16px;
+}
+
+/* MPRIS (música) */
+.widget-mpris-player {
+  background: alpha(@background, 0.6);
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.mpris-background {
+}
+
+.mpris-overlay {
+  padding: 12px;
+  background-color: alpha(@background, 0.4);
+  border-radius: 14px;
+}
+
+.widget-mpris-album-art {
+  min-width: 90px;
+  min-height: 90px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px alpha(black, 0.5);
+}
+
+.widget-mpris-title {
+  font-weight: bold;
+}
+
+.widget-mpris-subtitle {
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+.mpris-overlay button {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.mpris-overlay button:hover {
+  background: alpha(@accent, 0.3);
+}

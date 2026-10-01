@@ -1,0 +1,119 @@
+@import "../../.cache/wal/colors-waybar.css";
+
+* {
+    font-family: "SpaceMono Nerd Font", "JetBrainsMono Nerd Font", "Font Awesome 6 Free";
+    font-size: 13px;
+    color: @text_safe;
+    outline-style: none;
+    box-shadow: none;
+}
+
+window { background-color: transparent; }
+
+/* panel principal (el blur lo aplica Hyprland via layerrule) */
+.panel {
+    background-color: alpha(@background, 0.62);
+    border: 1px solid alpha(@text_safe, 0.14);
+    border-radius: 20px;
+}
+
+separator { background-color: alpha(@text_safe, 0.12); min-height: 1px; min-width: 1px; }
+
+/* cabecera */
+.top-bar { padding: 6px 18px; }
+.logo { font-size: 24px; color: @color4; }
+.search-box {
+    background-color: alpha(@text_safe, 0.08);
+    border: 1px solid alpha(@text_safe, 0.12);
+    border-radius: 22px;
+    padding: 0 16px;
+    min-height: 32px;
+}
+.search-glyph { opacity: 0.6; }
+.placeholder { opacity: 0.5; }
+.search-box entry {
+    background: transparent;
+    border: none;
+    min-height: 0;
+    padding: 0;
+}
+
+/* listas */
+list, scrolledwindow, viewport { background-color: transparent; border: none; }
+row { background-color: transparent; border-radius: 12px; margin: 1px 0; }
+row:hover { background-color: alpha(@text_safe, 0.06); }
+row:selected { background-color: alpha(@color4, 0.30); }
+row:selected label { color: @text_safe; }
+
+/* barra lateral */
+.cats { padding: 14px 12px; }
+.cats row { padding: 6px 10px; }
+.cat-glyph { min-width: 20px; opacity: 0.85; }
+.cat-count {
+    background-color: alpha(@text_safe, 0.10);
+    border-radius: 10px;
+    padding: 0 8px;
+    font-size: 11px;
+}
+.empty-cat label { opacity: 0.4; }
+.phrase { font-style: italic; opacity: 0.6; font-size: 12px; margin-bottom: 4px; }
+
+/* lista de apps */
+.list-area { padding: 8px 3px 8px 10px; }
+.list-area row { padding: 8px 12px; }
+.app-name { font-weight: bold; }
+.app-sub { font-size: 11px; opacity: 0.65; }
+.star { color: @color5; }
+.empty { opacity: 0.5; margin-top: 40px; }
+
+scrollbar, scrollbar trough, scrollbar.vertical {
+    background: transparent;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+scrollbar slider {
+    min-width: 6px;
+    min-height: 32px;
+    margin: 0;
+    border: none;
+    border-radius: 3px;
+    background-color: alpha(@text_safe, 0.28);
+}
+scrollbar slider:hover { background-color: alpha(@text_safe, 0.5); }
+
+/* panel derecho */
+.cover {
+    background-size: cover;
+    background-position: center 30%;
+    border-radius: 14px;
+}
+.d-name { font-size: 18px; font-weight: bold; }
+.d-generic { opacity: 0.7; }
+.d-desc { opacity: 0.85; }
+.chip {
+    background-color: alpha(@text_safe, 0.10);
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 11px;
+}
+.det-key { font-size: 11px; opacity: 0.55; }
+.det-val { padding-bottom: 4px; }
+
+button {
+    background-image: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    box-shadow: none;
+}
+.action-btn {
+    background-color: alpha(@text_safe, 0.07);
+    border-radius: 12px;
+    padding: 5px 14px;
+}
+.action-btn:hover { background-color: alpha(@text_safe, 0.15); }
+.action-btn:disabled { opacity: 0.4; }
+.action-btn.primary { background-color: alpha(@color4, 0.55); }
+.action-btn.primary:hover { background-color: alpha(@color4, 0.75); }
+.btn-glyph { min-width: 18px; }
+.hint { font-size: 11px; opacity: 0.55; }

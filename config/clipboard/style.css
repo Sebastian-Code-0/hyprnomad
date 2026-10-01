@@ -1,0 +1,28 @@
+/* base compartida con el launcher */
+@import "../launcher/style.css";
+
+/* cabecera */
+.header-note { font-size: 12px; opacity: 0.5; }
+
+/* barra lateral */
+.section-title { font-size: 10px; letter-spacing: 1px; opacity: 0.5; margin-left: 4px; }
+.action-btn.danger { background-color: alpha(@color1, 0.55); }
+.cats .hint { margin-top: 1px; }
+.warn label { color: @color3; }
+
+/* lista */
+.row-glyph { font-size: 20px; opacity: 0.85; }
+.time { font-size: 11px; opacity: 0.6; }
+.chip-imagen { background-color: alpha(@color4, 0.30); }
+.chip-url { background-color: alpha(@color2, 0.30); }
+.chip-archivo { background-color: alpha(@color5, 0.30); }
+
+/* panel derecho */
+.preview-frame {
+    background-color: alpha(@text_safe, 0.06);
+    border: 1px solid alpha(@text_safe, 0.10);
+    border-radius: 14px;
+}
+.preview-text { font-size: 12px; opacity: 0.85; }
+.big-glyph { font-size: 44px; opacity: 0.75; }
+.kind-title { font-weight: bold; }

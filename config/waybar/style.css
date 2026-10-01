@@ -1,0 +1,140 @@
+@import "../../.cache/wal/colors-waybar.css";
+
+/* FUENTE GLOBAL */
+* {
+    font-family: "SpaceMono Nerd Font", "Font Awesome 6 Free", sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    border: none;
+    transition: all 0.15s ease;
+    /* Sombra sutil para que los iconos se sigan viendo con fondos de
+       pantalla claros o muy cargados de detalle detras de la barra. */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
+/* BARRA */
+window#waybar {
+    background: transparent;
+}
+
+/* El tema del sistema dibuja un contorno de foco, sobre 
+   botones clickeados */
+*:focus, *:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+/* MODULOS */
+#custom-arch,
+#cpu,
+#memory,
+#temperature,
+#network,
+#pulseaudio,
+#pulseaudio-mic,
+#backlight,
+#battery,
+#power-profiles-daemon,
+#clock {
+
+    background: alpha(@background,0.8);
+    color: @foreground;
+
+    padding: 0px 6px;
+    margin: 1px 2px;
+
+    border-radius: 14px;
+
+    border: 1px solid alpha(@color4,0.15);
+}
+
+/* HOVER NEON SUTIL */
+#custom-arch:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#network:hover,
+#pulseaudio:hover,
+#pulseaudio-mic:hover,
+#backlight:hover,
+#battery:hover,
+#power-profiles-daemon:hover,
+#clock:hover {
+
+    border: 1px solid @color4;
+    color: @color4;
+
+    box-shadow: 0 0 6px alpha(@color4,0.55);
+}
+
+/* WORKSPACES */
+#workspaces {
+
+    background: alpha(@background,0.8);
+
+    padding: 0px 4px;
+    margin: 1px 2px;
+
+    border-radius: 14px;
+}
+
+/* botones workspace: sin transition, el cambio de icono (rayo -> chip)
+   debe ser instantaneo */
+#workspaces button {
+
+    color: @color8;
+
+    padding: 0 6px;
+    margin: 0 2px;
+
+    border-radius: 12px;
+
+    transition: none;
+    outline: none;
+    box-shadow: none;
+}
+
+/* quita el foco de click en cualquier estado */
+#workspaces button:focus,
+#workspaces button:focus-visible {
+
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+/* activo: cambio de icono (rayo -> chip) funciona como indicador */
+#workspaces button.active {
+
+    color: @color4;
+
+    background: transparent;
+}
+
+/* urgente */
+#workspaces button.urgent {
+
+    color: @color1;
+
+    background: transparent;
+}
+
+/* hover: tinte sutil del color de acento */
+#workspaces button:hover {
+
+    color: @color4;
+
+    background: alpha(@color4, 0.15);
+}
+
+/* iconos centrados */
+#custom-arch,
+#network,
+#pulseaudio,
+#pulseaudio-mic,
+#battery,
+#backlight,
+#power-profiles-daemon {
+
+    min-width: 22px;
+}

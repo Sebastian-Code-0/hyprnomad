@@ -1,0 +1,48 @@
+/* base compartida con el launcher */
+@import "../launcher/style.css";
+
+/* cabecera y titulos */
+.header-note { font-size: 12px; opacity: 0.5; }
+.section-title { font-size: 10px; letter-spacing: 1px; opacity: 0.5; margin-left: 4px; }
+.plain-row, .plain-row:hover, .plain-row:selected { background-color: transparent; }
+.crumb { padding: 8px 10px 0 10px; }
+
+/* lista de carpetas */
+.row-glyph { font-size: 20px; opacity: 0.85; min-width: 30px; }
+
+/* cuadricula */
+flowboxchild, flowboxchild:selected, flowboxchild:hover {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border-radius: 12px;
+}
+.thumb {
+    background-color: alpha(@text_safe, 0.08);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 2px solid transparent;
+    border-radius: 12px;
+}
+flowboxchild:hover .thumb { border-color: alpha(@text_safe, 0.35); }
+flowboxchild:selected .thumb { border-color: @color4; }
+.card-star { color: @color5; font-size: 15px; margin: 8px 10px; }
+.card-badge {
+    background-color: alpha(@background, 0.78);
+    border-radius: 10px;
+    padding: 1px 8px;
+    margin: 8px;
+    font-size: 10px;
+}
+
+/* panel derecho */
+.preview { border: 1px solid alpha(@text_safe, 0.14); }
+.meta-glyph { opacity: 0.7; }
+.swatch {
+    min-width: 26px;
+    min-height: 26px;
+    border-radius: 13px;
+    border: 2px solid alpha(@text_safe, 0.28);
+}
+.check-glyph { opacity: 0.9; }

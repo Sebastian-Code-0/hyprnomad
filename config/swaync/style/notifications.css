@@ -1,0 +1,65 @@
+@define-color bg alpha(@background, 0.75);
+@define-color surface alpha(@color0, 0.6);
+@define-color border alpha(@foreground, 0.15);
+@define-color accent @color6;
+@define-color text @foreground;
+
+* {
+  all: unset;
+  font-family: "DejaVu Sans";
+  color: @text;
+}
+
+/* NOTIFICACIONES FLOTANTES */
+.floating-notifications .notification-background {
+  background: @bg;
+  border-radius: 14px;
+  border: 1px solid @border;
+  margin: 12px;
+  padding: 8px;
+}
+
+/* CONTENIDO */
+.notification-content {
+  margin: 8px;
+}
+
+/* separacion icono-texto: el "all: unset" de arriba borra el margin que
+   swaync trae por defecto en el icono, sin esto queda pegado al texto */
+.notification-content .image {
+  margin-right: 20px;
+}
+
+/* TÍTULO */
+.summary {
+  font-weight: bold;
+  color: @accent;
+}
+
+/* TEXTO */
+.body {
+  font-size: 0.9em;
+  opacity: 0.9;
+}
+
+/* BOTONES */
+.notification-action {
+  background: @surface;
+  border-radius: 8px;
+  margin: 6px;
+  padding: 4px 8px;
+}
+
+.notification-action:hover {
+  background: @accent;
+  color: @background;
+}
+
+/* CERRAR */
+.close-button {
+  border-radius: 6px;
+}
+
+.close-button:hover {
+  background: @accent;
+}

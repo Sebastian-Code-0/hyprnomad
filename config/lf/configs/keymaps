@@ -1,0 +1,89 @@
+# -------------------- KEYMAPS -------------------- #
+# DESVINCULAR TECLAS DEFAULT
+map c
+map r
+map v
+map i
+map d
+map b
+map m
+map n
+map a
+map as
+map az
+map ae
+# NAVEGACIÓN
+map . set hidden!
+map <esc> clear
+map f filter
+map w zi
+# ARCHIVO
+map x cut
+map y copy
+map p paste
+map bb "mover a papelera"
+map B delete
+map br "restaurar de papelera"
+map bv "vaciar papelera"
+map bn "renombrar borrando el nombre"
+map bf "renombrar editando el final"
+map aa "abrir"
+map cm "hacer ejecutable"
+map cb "crear respaldo"
+# SELECCIÓN
+map <c-a> "seleccionar todo"
+# COPIAR RUTAS
+map cn "copiar nombre del archivo"
+map cx "copiar nombre con extensión"
+map cc "mostrar nombre con extensión"
+map ca "copiar ruta del archivo"
+map cd "copiar ruta de la carpeta actual"
+# BUSCAR
+map <c-f> "buscar con fzf"
+map bc "buscar texto en archivos"
+# CREAR
+map na "crear archivo"
+map nd "crear carpeta"
+map ns "crear carpeta con la selección"
+map cs "calcular tamaño de la carpeta"
+# ARCHIVOS COMPRIMIDOS
+map zc "crear zip"
+map za "crear zip cifrado"
+map ze "extraer archivo comprimido"
+# CONVERTIR
+map v4 "convertir a mp4"
+map vv "convertir a mkv"
+map vp "convertir a png"
+map vj "convertir a jpg"
+map vg "convertir a gif"
+map v3 "convertir a mp3"
+# IR A (MARCADORES)
+map ic "ir a configuración"
+map id "ir a Descargas"
+map ii "ir al inicio"
+map it "ir a la papelera"
+map im "ir a Imágenes"
+map is "ir a Capturas"
+map iw "ir a Wallpapers"
+map iv "ir a Vídeos"
+map in "ir a Música"
+map iu "ir a usb"
+# USB
+map du "desmontar usb"
+# CONFIG
+map rc "recargar configuración"
+
+map gg "ir al principio de la lista"
+map zh "alternar archivos ocultos"
+map zr "invertir el orden"
+map zn "ocultar información extra"
+map zs "mostrar tamaño"
+map zt "mostrar fecha de modificación"
+map sa "ordenar por último acceso"
+map sb "ordenar por fecha de creación"
+map sc "ordenar por fecha de cambio"
+map se "ordenar por extensión"
+map sn "ordenar por nombre"
+map ss "ordenar por tamaño"
+map st "ordenar por fecha de modificación"
+map gh "ir al inicio"

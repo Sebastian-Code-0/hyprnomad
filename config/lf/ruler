@@ -1,0 +1,18 @@
+{{with .Message -}}
+{{. -}}
+{{else with .Stat -}}
+{{.Size | humanize | printf " \033[0m%5s\033[0m" -}}
+{{with .Permissions}}{{printf "| \033[36m%s\033[33m" .}}{{end -}}
+{{if and .User .Group}}{{printf "|    %s:%s" .User .Group}}{{end -}}
+{{with .ModTime}}{{printf "| %s" .}}{{end -}}
+{{with .Target}}{{printf "| -> %s" .}}{{end -}}
+{{end -}}
+{{.SPACER -}}
+{{with .Keys}}{{printf "  %s" .}}{{end -}}
+{{with .Progress}}{{printf "  %s" (join . " ")}}{{end -}}
+{{with .Select}}{{printf "  \033[7;34m %d \033[0m" (len .)}}{{end -}}
+{{with .Cut}}{{printf "  \033[7;31m %d \033[0m" (len .)}}{{end -}}
+{{with .Copy}}{{printf "  \033[7;32m %d \033[0m" (len .)}}{{end -}}
+{{with .Filter}}{{printf "  \033[7;35m %s \033[37;34m" (join . " ")}}{{end -}}
+{{printf " \033[33m 󰋊 %s \033[0m" df -}}
+{{printf "  %d/%d " .Index .Total}}
