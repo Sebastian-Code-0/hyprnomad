@@ -67,6 +67,7 @@ for origen in "$AQUI"/config/*/; do
     dir=$(basename "$origen")
     if [[ -e $DESTINO/$dir || -L $DESTINO/$dir ]]; then
         hacer mkdir -p "$RESPALDO"
+        hacer chmod 700 "$RESPALDO"   # contiene configs completas: solo el usuario
         hacer mv "$DESTINO/$dir" "$RESPALDO/$dir"
         echo "  respaldada: $dir -> $RESPALDO/$dir"
     fi
@@ -80,6 +81,20 @@ for rel in "${PERSONALES[@]}"; do
         echo "  conservado: $rel (ya existia, no se pisa)"
     fi
 done
+
+# avisa de lo que solo existia en el respaldo (favoritos, estado propio): no se restaura solo
+if [[ -d $RESPALDO ]] && ((!SIMULAR)); then
+    extras=()
+    while IFS= read -r f; do
+        rel=${f#"$RESPALDO"/}
+        [[ -e $DESTINO/$rel || -L $DESTINO/$rel ]] || extras+=("$rel")
+    done < <(find "$RESPALDO" \( -type f -o -type l \))
+    if ((${#extras[@]})); then
+        echo "  aviso: ${#extras[@]} archivo(s) tuyos solo estan en el respaldo (no se restauraron):"
+        printf '    %s\n' "${extras[@]:0:10}"
+        ((${#extras[@]} <= 10)) || echo "    ... y $((${#extras[@]} - 10)) mas en $RESPALDO"
+    fi
+fi
 
 # los scripts deben ser ejecutables (un zip descargado puede perder el permiso)
 if ((!SIMULAR)); then
