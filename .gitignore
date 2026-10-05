@@ -3,12 +3,31 @@
 # uso interno: genera y verifica config/, no hace falta publicarla
 /tools/
 
+# claves y certificados
 *.pem
 *.key
-id_rsa*
-*.kdbx
+*.p12
+*.pfx
+*.asc
 *.gpg
+*.age
+*.kdbx
+id_rsa*
+id_ed25519*
+id_ecdsa*
+id_dsa*
+
+# credenciales y secretos
 .env
+.env.*
+.netrc
+*.ovpn
+*secret*
+*credential*
+*token*
+
+# estado y registros locales
+*.log
 *.sqlite
 *.db
 *.bak

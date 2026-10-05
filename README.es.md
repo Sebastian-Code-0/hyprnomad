@@ -212,9 +212,8 @@ Definiciones completas en `config/lf/configs/{keymaps,commands}`.
 
 ## Créditos
 
-- [hyprstellar](https://github.com/xeji01/hyprstellar) — punto de partida de la organización
-  general; la configuración de la terminal kitty, los iconos de lf y la configuración de
-  swaync están muy basados en él.
+- [hyprstellar](https://github.com/xeji01/hyprstellar) — uno de los proyectos que
+  inspiraron este setup, sobre todo su organización general y su estilo.
 
 Publicado bajo licencia GPL-3.0.
 

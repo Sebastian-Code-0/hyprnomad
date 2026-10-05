@@ -214,9 +214,8 @@ Full definitions in `config/lf/configs/{keymaps,commands}`.
 
 ## Credits
 
-- [hyprstellar](https://github.com/xeji01/hyprstellar) — starting point for the general
-  layout; the kitty terminal config, the lf file manager icons and the swaync setup are
-  closely based on it.
+- [hyprstellar](https://github.com/xeji01/hyprstellar) — one of the projects that
+  inspired this setup, especially its general layout and overall feel.
 
 Licensed under GPL-3.0.
 
