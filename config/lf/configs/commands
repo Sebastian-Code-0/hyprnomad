@@ -193,7 +193,37 @@ cmd "seleccionar todo" %{{
 
 #require rsync
 
-cmd paste &{{
+# paste: avisa si ya existe un archivo con el mismo nombre antes de pegar
+cmd paste %{{
+    mapfile -t _lines < ~/.local/share/lf/files
+    files=("${_lines[@]:1}")
+    conflictos=()
+    for file in "${files[@]}"; do
+        destino="$PWD/$(basename "$file")"
+        [[ -e "$destino" || -L "$destino" ]] || continue
+        [[ "$destino" -ef "$file" ]] && continue
+        conflictos+=("$destino")
+    done
+
+    if [[ ${#conflictos[@]} -gt 0 ]]; then
+        echo "   ya existe en esta carpeta (${#conflictos[@]}):"
+        for c in "${conflictos[@]:0:5}"; do echo "     - $(basename "$c")"; done
+        [[ ${#conflictos[@]} -gt 5 ]] && echo "     ... y $(( ${#conflictos[@]} - 5 )) más"
+        printf "   reemplazar? los existentes van a la papelera [s/n] "
+        read -r ans
+        if [ "$ans" != "s" ]; then
+            echo "   cancelado, no se pegó nada"
+            exit 0
+        fi
+        for c in "${conflictos[@]}"; do
+            err=$(trash-put -- "$c" 2>&1) || { echo "   error al mover \"$(basename "$c")\" a la papelera: $err — no se pegó nada"; exit 1; }
+        done
+    fi
+    lf -remote "send $id paste-ejecutar"
+}}
+
+# pega de verdad (copiar/mover con progreso); lo llama paste tras revisar conflictos
+cmd paste-ejecutar &{{
     . ~/.config/lf/scripts/utils.sh
     mapfile -t _lines < ~/.local/share/lf/files
     mode="${_lines[0]}"
