@@ -41,10 +41,15 @@ paso() { echo; echo "==> $*"; }
 paso "Comprobando dependencias"
 faltan=()
 for cmd in Hyprland uwsm hyprlock hypridle waybar swaync swaync-client awww wal wlogout kitty lf \
-           fastfetch cliphist wl-copy wl-paste grim magick jq brightnessctl pamixer notify-send \
-           xdg-user-dir python3 lsd bat; do
+           fastfetch cliphist wl-copy wl-paste grim hyprshot magick jq brightnessctl pamixer \
+           playerctl pavucontrol paplay notify-send nmcli udiskie xdg-user-dir xdg-open python3 \
+           lsd bat fzf fd rg zoxide trash-put chafa 7z zipinfo pdfinfo exiftool ffmpeg \
+           ffmpegthumbnailer; do
     command -v "$cmd" >/dev/null 2>&1 || faltan+=("$cmd")
 done
+# archivos que usa la configuracion (agente de polkit en el autoinicio, sonidos de volumen y notificaciones)
+[[ -x /usr/lib/polkit-kde-authentication-agent-1 ]] || faltan+=("polkit-kde-agent")
+[[ -f /usr/share/sounds/freedesktop/stereo/message-new-instant.oga ]] || faltan+=("sound-theme-freedesktop")
 python3 - <<'EOF' 2>/dev/null || faltan+=("python-gobject/gtk-layer-shell")
 import gi
 gi.require_version("Gtk", "3.0")

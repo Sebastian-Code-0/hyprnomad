@@ -93,12 +93,24 @@ The Hyprland config is written in Lua (`hyprland.lua`) and was tested on Hyprlan
 
 ```sh
 sudo pacman -S hyprland uwsm hyprlock hypridle waybar swaync awww kitty lf fastfetch \
-  cliphist wl-clipboard grim imagemagick jq brightnessctl pamixer libnotify \
-  xdg-user-dirs ffmpegthumbnailer perl-image-exiftool udisks2 lsd bat zsh \
-  gtk-layer-shell python-gobject ttf-jetbrains-mono-nerd ttf-space-mono-nerd ttf-dejavu
+  cliphist wl-clipboard grim hyprshot imagemagick jq brightnessctl pamixer playerctl \
+  pavucontrol libpulse sound-theme-freedesktop libnotify networkmanager polkit-kde-agent \
+  udiskie udisks2 xdg-user-dirs xdg-utils lsd bat zsh gtk-layer-shell python-gobject \
+  fzf fd ripgrep zoxide trash-cli chafa 7zip unzip poppler ffmpeg ffmpegthumbnailer \
+  perl-image-exiftool ttf-jetbrains-mono-nerd ttf-space-mono-nerd ttf-dejavu
 
 yay -S python-pywal wlogout   # AUR
 ```
+
+Optional, each one only for the feature next to it:
+
+```sh
+sudo pacman -S neovim firefox nyancat materia-gtk-theme libqalculate wev unrar
+```
+
+`neovim`: lf and the clipboard history open text files with it. `firefox`: `Super + F`. `nyancat`: the
+Waybar module. `materia-gtk-theme`: dark theme for the volume mixer. `libqalculate`: the calculator key.
+`wev`: to find key names for `local.lua`. `unrar`: `.rar` previews in lf.
 
 Only needed for `./install.sh --zshrc`: [Oh My Zsh](https://ohmyz.sh) with the
 [Powerlevel10k](https://github.com/romkatv/powerlevel10k) theme and the `zsh-autosuggestions` /

@@ -91,12 +91,24 @@ La configuración de Hyprland está escrita en Lua (`hyprland.lua`) y se probó 
 
 ```sh
 sudo pacman -S hyprland uwsm hyprlock hypridle waybar swaync awww kitty lf fastfetch \
-  cliphist wl-clipboard grim imagemagick jq brightnessctl pamixer libnotify \
-  xdg-user-dirs ffmpegthumbnailer perl-image-exiftool udisks2 lsd bat zsh \
-  gtk-layer-shell python-gobject ttf-jetbrains-mono-nerd ttf-space-mono-nerd ttf-dejavu
+  cliphist wl-clipboard grim hyprshot imagemagick jq brightnessctl pamixer playerctl \
+  pavucontrol libpulse sound-theme-freedesktop libnotify networkmanager polkit-kde-agent \
+  udiskie udisks2 xdg-user-dirs xdg-utils lsd bat zsh gtk-layer-shell python-gobject \
+  fzf fd ripgrep zoxide trash-cli chafa 7zip unzip poppler ffmpeg ffmpegthumbnailer \
+  perl-image-exiftool ttf-jetbrains-mono-nerd ttf-space-mono-nerd ttf-dejavu
 
 yay -S python-pywal wlogout   # AUR
 ```
+
+Opcionales, cada uno solo para la función que se indica:
+
+```sh
+sudo pacman -S neovim firefox nyancat materia-gtk-theme libqalculate wev unrar
+```
+
+`neovim`: lf y el historial del portapapeles abren los archivos de texto con él. `firefox`: `Super + F`. `nyancat`: el
+módulo de Waybar. `materia-gtk-theme`: tema oscuro del mezclador de volumen. `libqalculate`: la tecla de la
+calculadora. `wev`: para averiguar el nombre de las teclas de `local.lua`. `unrar`: vista previa de `.rar` en lf.
 
 Solo hace falta para `./install.sh --zshrc`: [Oh My Zsh](https://ohmyz.sh) con el tema
 [Powerlevel10k](https://github.com/romkatv/powerlevel10k) y los plugins `zsh-autosuggestions` /
