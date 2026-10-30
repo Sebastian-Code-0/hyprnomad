@@ -35,7 +35,12 @@
         "format-wifi": "󰖩",
         "format-ethernet": "󰈀",
         "format-disconnected": "󰖪",
+        "format-disabled": "󰖪",
+        "format-linked": "󰈀",
         "tooltip-format": "Red: {essid}\nIP: {ipaddr}\nSeñal: {signalStrength}%",
+        "tooltip-format-ethernet": "Cable: {ifname}\nIP: {ipaddr}",
+        "tooltip-format-disconnected": "Sin conexión: clic para abrir el panel de red",
+        "tooltip-format-disabled": "Wi-Fi apagado: clic para abrir el panel y encenderlo",
         "on-click": "python3 ~/.config/network-panel/network_panel.py"
     },
     "cpu": {
