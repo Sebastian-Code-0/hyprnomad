@@ -2,6 +2,7 @@
 """Selector de ventanas con miniaturas, espacios de trabajo y acciones rapidas."""
 import json
 import os
+import re
 import signal
 import subprocess
 import sys
@@ -57,8 +58,29 @@ def hyprctl(*args):
         return None
 
 
-def dispatch(*args):
-    subprocess.run(["hyprctl", "dispatch", *args], capture_output=True)
+def dispatch(expr):
+    """Ejecuta una expresion Lua de despachador (hl.dsp.*) en Hyprland."""
+    subprocess.run(["hyprctl", "dispatch", expr], capture_output=True)
+
+
+def window_sel(addr):
+    """Selector `address:` de una ventana; se valida porque va dentro de una expresion Lua."""
+    if not re.fullmatch(r"0x[0-9a-fA-F]+", addr):
+        raise ValueError(f"direccion de ventana invalida: {addr!r}")
+    return f"address:{addr}"
+
+
+def focus_cmd(addr):
+    return f'hl.dsp.focus({{ window = "{window_sel(addr)}" }})'
+
+
+def close_cmd(addr):
+    return f'hl.dsp.window.close({{ window = "{window_sel(addr)}" }})'
+
+
+def move_silent_cmd(ws_id, addr):
+    """Mueve la ventana a un espacio sin cambiar de espacio."""
+    return f'hl.dsp.window.move({{ workspace = {int(ws_id)}, window = "{window_sel(addr)}", follow = false }})'
 
 
 def fetch_state():
@@ -67,6 +89,16 @@ def fetch_state():
     ws = hyprctl("activeworkspace") or {}
     active = hyprctl("activewindow") or {}
     return clients, ws.get("id"), active.get("address")
+
+
+SPECIAL_IDS = {}
+
+
+def workspace_id(ws):
+    """Id del espacio; los especiales ya no traen `id` (Hyprland 0.57), se les da uno negativo propio."""
+    if "id" in ws:
+        return ws["id"]
+    return SPECIAL_IDS.setdefault(ws["name"], -len(SPECIAL_IDS) - 1)
 
 
 def ws_label(ws_id, name):
@@ -108,7 +140,7 @@ class Win:
         self.cls = c.get("class") or ""
         self.title = c.get("title") or "(sin título)"
         self.pid = c.get("pid")
-        self.ws_id = c["workspace"]["id"]
+        self.ws_id = workspace_id(c["workspace"])
         self.ws = ws_label(self.ws_id, c["workspace"]["name"])
         self.size = tuple(c.get("size", (0, 0)))
         self.at = tuple(c.get("at", (0, 0)))
@@ -711,18 +743,17 @@ class WindowSelector(Gtk.Window):
         Gtk.main_quit()
 
     def go(self, win):
-        self._finish(["focuswindow", f"address:{win.addr}"])
+        self._finish(focus_cmd(win.addr))
 
     def bring(self, win):
         if win.ws_id == self.active_ws or self.active_ws is None:
             return self.go(win)
-        self._finish(["movetoworkspacesilent", f"{self.active_ws},address:{win.addr}"],
-                     ["focuswindow", f"address:{win.addr}"])
+        self._finish(move_silent_cmd(self.active_ws, win.addr), focus_cmd(win.addr))
 
     def close_window(self, win):
         """Pide a la app que cierre la ventana (puede preguntar si hay cambios) y refresca."""
         idx = self.ordered.index(win) if win in self.ordered else 0
-        dispatch("closewindow", f"address:{win.addr}")
+        dispatch(close_cmd(win.addr))
         GLib.timeout_add(450, self._after_close_window, idx)
 
     def _after_close_window(self, idx):
@@ -844,7 +875,7 @@ def main():
     except OSError:
         pass
     for cmd in commands:
-        dispatch(*cmd)
+        dispatch(cmd)
 
 
 if __name__ == "__main__":

@@ -87,6 +87,8 @@ Cinco apps propias en GTK3, hechas para este setup, en lugar de lanzadores/selec
 
 `install.sh` revisa que estén instaladas y avisa qué falta, pero no instala nada.
 
+La configuración de Hyprland está escrita en Lua (`hyprland.lua`) y se probó en Hyprland 0.57.
+
 ```sh
 sudo pacman -S hyprland uwsm hyprlock hypridle waybar swaync awww kitty lf fastfetch \
   cliphist wl-clipboard grim imagemagick jq brightnessctl pamixer libnotify \
@@ -114,7 +116,7 @@ Copia `config/` a `~/.config` y genera la paleta inicial de pywal. No instala ni
 
 ## Atajos
 
-`Super` es la tecla Windows. Lista completa, de `config/hypr/hyprland.conf`.
+`Super` es la tecla Windows. Lista completa, de `config/hypr/hyprland.lua`.
 
 **Programas**
 
@@ -154,7 +156,7 @@ Copia `config/` a `~/.config` y genera la paleta inicial de pywal. No instala ni
 | `Super + S` / `Super + Shift + S` | Mostrar / mover al espacio especial |
 | `Super + clic izq./der.` (arrastrar) | Mover / redimensionar ventana |
 
-**Teclas de equipo** (`hypr/local.conf`, comentadas por defecto): volumen, micrófono, brillo,
+**Teclas de equipo** (`hypr/local.lua`, comentadas por defecto): volumen, micrófono, brillo,
 capturas, multimedia, menú de favoritos.
 
 ### Dentro de las apps

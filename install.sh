@@ -10,7 +10,7 @@ SIMULAR=0
 ZSHRC=0
 
 # archivos personales: si ya existen en el equipo se conservan, no se pisan
-PERSONALES=(hypr/local.conf hypr/hyprlock/assets/avatar.jpg launcher/assets/cover.jpg)
+PERSONALES=(hypr/local.lua hypr/hyprlock/assets/avatar.jpg launcher/assets/cover.jpg)
 
 uso() {
     cat <<'EOF'
@@ -147,7 +147,7 @@ fi
 paso "Listo"
 cat <<EOF
   Siguientes pasos:
-   1. Ajusta $DESTINO/hypr/local.conf (monitores, teclas Fn y demas)
+   1. Ajusta $DESTINO/hypr/local.lua (monitores, teclas Fn y demas)
    2. Cierra sesion e inicia Hyprland con uwsm
 EOF
 [[ -d $RESPALDO ]] && echo "   Tu configuracion anterior esta en $RESPALDO"

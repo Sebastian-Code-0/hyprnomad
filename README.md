@@ -89,6 +89,8 @@ Five GTK3 apps built for this setup, replacing rofi/wofi-based launchers and pic
 
 `install.sh` checks these are present and lists what's missing, but doesn't install anything.
 
+The Hyprland config is written in Lua (`hyprland.lua`) and was tested on Hyprland 0.57.
+
 ```sh
 sudo pacman -S hyprland uwsm hyprlock hypridle waybar swaync awww kitty lf fastfetch \
   cliphist wl-clipboard grim imagemagick jq brightnessctl pamixer libnotify \
@@ -117,7 +119,7 @@ packages.
 
 ## Shortcuts
 
-`Super` is the Windows key. Full list, from `config/hypr/hyprland.conf`.
+`Super` is the Windows key. Full list, from `config/hypr/hyprland.lua`.
 
 **Programs**
 
@@ -157,7 +159,7 @@ packages.
 | `Super + S` / `Super + Shift + S` | Toggle / move to the special workspace |
 | `Super + left/right click` (drag) | Move / resize window |
 
-**Equipment keys** (`hypr/local.conf`, commented out by default): volume, mic, brightness,
+**Equipment keys** (`hypr/local.lua`, commented out by default): volume, mic, brightness,
 screenshot, media keys, favorites menu.
 
 ### Inside the apps
