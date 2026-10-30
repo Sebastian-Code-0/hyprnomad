@@ -224,6 +224,10 @@ Teclas extra por app:
 
 Definiciones completas en `config/lf/configs/{keymaps,commands}`.
 
+## Estado y comentarios
+
+Este es mi setup personal, compartido tal cual y probado en un solo portátil (Arch Linux, Hyprland 0.57). En otro hardware puede necesitar ajustes. Los reportes de errores y sugerencias son bienvenidos como issues de GitHub; no puedo prometer una respuesta rápida. Por favor no pegues datos personales (usuarios, nombres de equipo o de red) en ellos.
+
 ## Créditos
 
 - [hyprstellar](https://github.com/xeji01/hyprstellar) — uno de los proyectos que

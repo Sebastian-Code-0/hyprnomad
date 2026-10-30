@@ -226,6 +226,10 @@ Extra keys per app:
 
 Full definitions in `config/lf/configs/{keymaps,commands}`.
 
+## Status and feedback
+
+This is my personal setup, shared as-is and tested on a single laptop (Arch Linux, Hyprland 0.57). It may need adjustments on other hardware. Bug reports and suggestions are welcome as GitHub issues; I can't promise a quick response. Please don't paste personal data (usernames, hostnames, network names) in them.
+
 ## Credits
 
 - [hyprstellar](https://github.com/xeji01/hyprstellar) — one of the projects that
