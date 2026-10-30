@@ -1,4 +1,6 @@
 #!/bin/bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 . "$HOME/.config/hypr/scripts/wallpaper-paths.sh"
 wallpaper_path=$WALLPAPER_LINK

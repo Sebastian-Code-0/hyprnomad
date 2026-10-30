@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Selector de wallpapers con categorias, favoritos, recientes y paleta de pywal."""
 import hashlib
 import json

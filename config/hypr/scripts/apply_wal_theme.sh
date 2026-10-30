@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Aplica el tema de pywal del wallpaper actual y refresca lo que usa sus colores.
 # Lo cargan con "source" apply_wallpaper.sh y random_wallpaper.sh.
 

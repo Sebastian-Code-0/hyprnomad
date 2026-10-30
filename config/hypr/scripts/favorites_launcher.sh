@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Menu de aplicaciones favoritas/mas usadas (wlogout con un boton por app)
 
 data_dir="$HOME/.local/share/launcher"

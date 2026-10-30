@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Datos en español para hyprlock: date | greeting | battery | caps | lock | clock [rise]
 
 # segundos que faltan para que pam_faillock libere la cuenta (vacio si no esta bloqueada)

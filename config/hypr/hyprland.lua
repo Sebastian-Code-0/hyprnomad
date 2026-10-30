@@ -1,3 +1,5 @@
+-- Copyright (C) 2026 Sebastian-Code-0
+-- SPDX-License-Identifier: GPL-3.0-or-later
 -- Configuración de Hyprland en Lua (Hyprland 0.55 o superior).
 -- Referencia: https://wiki.hypr.land/configuring/
 

@@ -1,4 +1,6 @@
 #!/bin/bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Aplica un wallpaper: enlace actual, transicion awww, aviso y tema pywal
 
 img=$(realpath "$1") || exit 1

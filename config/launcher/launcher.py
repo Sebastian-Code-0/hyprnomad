@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Lanzador de aplicaciones con categorias, detalle y favoritos."""
 import json
 import os

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Previsualizador de lf. Uso: previewer.sh <archivo> <ancho> <alto> <columna_x> <fila_y>
 # En kitty dibuja la imagen a resolucion real con "kitty +kitten icat --place"
 # (siempre dentro de la caja indicada); en otro terminal usa chafa en modo texto.

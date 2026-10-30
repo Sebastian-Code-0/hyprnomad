@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Cambia a un wallpaper al azar de la carpeta de wallpapers (distinto del actual).
 
 . "$HOME/.config/hypr/scripts/wallpaper-paths.sh"

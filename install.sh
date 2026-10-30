@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Instala estos dotfiles: copia config/ a ~/.config (con respaldo de lo que ya exista),
 # deja los wallpapers de ejemplo y genera la paleta inicial de pywal.
 # No instala paquetes (ver README, seccion Dependencies) ni toca ~/.zshrc salvo con --zshrc.

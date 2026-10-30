@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Brillo de la pantalla: --inc | --dec | --set N | --get (por defecto).
 # Cada cambio muestra una notificacion con barra de progreso.
 

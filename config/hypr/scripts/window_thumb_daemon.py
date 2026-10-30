@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Guarda una miniatura de cada ventana la primera vez que recibe el foco y la borra al cerrarla.
 La usa el selector de ventanas (window-select)."""
 import json

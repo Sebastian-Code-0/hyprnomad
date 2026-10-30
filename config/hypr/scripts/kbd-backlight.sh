@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Apaga (off) o restaura (on) la luz del teclado. Detecta el dispositivo solo;
 # si el equipo no tiene luz de teclado no hace nada.
 

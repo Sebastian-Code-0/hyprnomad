@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Selector de ventanas con miniaturas, espacios de trabajo y acciones rapidas."""
 import json
 import os

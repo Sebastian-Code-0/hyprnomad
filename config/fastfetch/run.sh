@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Muestra fastfetch con el siguiente logo de img/ (rota en cada terminal nueva)
 # y ajusta tamaño y posicion segun el ancho de la terminal.
 

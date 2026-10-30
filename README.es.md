@@ -229,7 +229,7 @@ Definiciones completas en `config/lf/configs/{keymaps,commands}`.
 - [hyprstellar](https://github.com/xeji01/hyprstellar) — uno de los proyectos que
   inspiraron este setup, sobre todo su organización general y su estilo.
 
-Publicado bajo licencia GPL-3.0.
+Publicado bajo licencia GPL-3.0-or-later.
 
 ---
 

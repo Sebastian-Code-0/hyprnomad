@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Genera los iconos de wlogout (glifos Nerd Font blancos, 512x512) en icons/.
 # Requiere ImageMagick y SpaceMono Nerd Font.
 cd "$(dirname "$0")" && mkdir -p icons || exit 1

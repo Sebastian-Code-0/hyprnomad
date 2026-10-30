@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Previsualizador para el panel de fzf de "restaurar de papelera" (bc y Ctrl-F no usan esto).
 # fzf llama: fzf_trash_preview.sh <ruta_del_archivo_en_la_papelera>
 #

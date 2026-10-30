@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Avisos de bateria: nivel bajo, carga lista y cambios del cargador.
 # Lee la bateria cada 16 s; en equipos sin bateria termina.
 

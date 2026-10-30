@@ -1,3 +1,5 @@
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Funciones para los comandos de lf. Envian mensajes y rutas a lf sin que el texto
 # (por ejemplo un nombre de archivo con comillas o saltos de linea) pueda inyectar
 # comandos. Se cargan con:  . ~/.config/lf/scripts/utils.sh   ($id lo define lf)

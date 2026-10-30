@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 Sebastian-Code-0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Guarda el portapapeles en cliphist, anota la hora y aplica el limite
 CONF=~/.config/clipboard/clipboard.conf
 MAX_ITEMS=500
